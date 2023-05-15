@@ -1,11 +1,3 @@
-// ******************************************************************
-//       /\ /|       @author     Tubbti 
-//       \ V/        @file UI控制基类
-//       | "")       
-//       /  |                    
-//      /  \\        
-//    *(__\_\        @Copyright  Copyright (c) , SweetCandy
-// ******************************************************************
 
 using SweetCandy.Extension;
 using UnityEngine;
