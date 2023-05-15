@@ -37,7 +37,6 @@ namespace SweetCandy.Basic
         {
             foreach (var item in new List<string>(objCache.Keys))
             {
-                //原理，遍历的List元素，删除的字典 遍历A删B 不允许遍历B删B
                 Clear(item);
             }
         }
@@ -63,20 +62,18 @@ namespace SweetCandy.Basic
         {
             GameObject go;
             go = FindUsableObject(key); //查找是否有可用的对象 若无则返回null
-            //若没有查找到--没有键/没有空闲对象
             if (go == null)
             {
-                //添加对象
                 go = AddObject(key, prefab);
             }
 
-            UseObject(go, pos, rotate); //使用对象 设置位置旋转和启用
+            UseObject(go, pos, rotate);
 
             return go;
 
         }
 
-        public GameObject CreateObject(string key, GameObject prefab,Transform canvas,Vector2 pos, Quaternion rotate)
+        public GameObject CreateObject(string key, GameObject prefab, Transform canvas, Vector2 pos, Quaternion rotate)
         {
             GameObject go;
             go = FindUsableObject(key);
@@ -84,7 +81,7 @@ namespace SweetCandy.Basic
             {
                 go = AddObject(key, prefab);
             }
-            UseObject(go,canvas,pos,rotate);
+            UseObject(go, canvas, pos, rotate);
             return go;
         }
 
@@ -98,14 +95,13 @@ namespace SweetCandy.Basic
         }
 
 
-        
+
         /// <summary>
         /// 查找是否有可用的对象
         /// </summary>
         private GameObject FindUsableObject(string key)
         {
 
-            //List的Find也是委托，类似于ArrayHelper自己定义的，可同样使用
             if (objCache.ContainsKey(key))
             {
                 //返回有被禁用的物体，若无则返回null
@@ -123,11 +119,8 @@ namespace SweetCandy.Basic
         /// <returns>返回实例对象</returns>
         private GameObject AddObject(string key, GameObject prefab)
         {
-            //创建预制件的实例对象
             GameObject go = Instantiate(prefab);
-            //如果缺少键则创建键
             if (!objCache.ContainsKey(key)) objCache.Add(key, new List<GameObject>());
-            //向对象池中添加对象
             objCache[key].Add(go);
 
             return go;
@@ -148,20 +141,20 @@ namespace SweetCandy.Basic
             //遍历执行所有需要被重置的逻辑（实现了IResetable接口的脚本）
             foreach (var item in go.GetComponents<IResetable>())
                 item.onReset();
-            
+
         }
 
-        private void UseObject(GameObject go,Transform canvas, Vector3 pos, Quaternion rotate)
+        private void UseObject(GameObject go, Transform canvas, Vector3 pos, Quaternion rotate)
         {
             /*if (go.transform.parent == null)
             {
                 go.GetComponent<RectTransform>().SetParent(canvas);
             }*/
-            if (go.transform.parent!=canvas)
+            if (go.transform.parent != canvas)
             {
-                go.transform.SetParent(canvas,true);
+                go.transform.SetParent(canvas, true);
             }
-            go.transform.localPosition = new Vector3(pos.x, pos.y,pos.z);
+            go.transform.localPosition = new Vector3(pos.x, pos.y, pos.z);
             go.transform.rotation = rotate;
             go.SetActive(true);
 
@@ -170,7 +163,7 @@ namespace SweetCandy.Basic
                 item.onReset();
         }
 
-        
+
         private IEnumerator CollectObjectDelay(GameObject go, float delay)
         {
             yield return new WaitForSeconds(delay);
@@ -178,6 +171,6 @@ namespace SweetCandy.Basic
         }
 
 
-        
+
     }
 }

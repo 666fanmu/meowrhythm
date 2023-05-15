@@ -10,10 +10,8 @@ namespace SweetCandy.Basic
 
         public static T Instance
         {
-            //实现按需加载
             get
             {
-                //当已经赋值，则直接返回即可
                 if (instance != null) return instance;
 
                 instance = FindObjectOfType<T>();
@@ -23,7 +21,7 @@ namespace SweetCandy.Basic
                 {
                     new GameObject("Singleton of " + typeof(T)).AddComponent<T>();
                 }
-                else instance.Init(); //保证Init只执行一次
+                else instance.Init();
 
                 return instance;
 
